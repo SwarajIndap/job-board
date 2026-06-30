@@ -28,17 +28,44 @@ function PostJob() {
   };
 
   return (
-    <div style={{ maxWidth: '500px', margin: '50px auto', padding: '20px' }}>
-      <h2>Post a New Job</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-        <input name="title" placeholder="Job Title" onChange={handleChange} required />
-        <input name="company" placeholder="Company Name" onChange={handleChange} required />
-        <input name="location" placeholder="Location" onChange={handleChange} required />
-        <textarea name="description" placeholder="Job Description" rows="4" onChange={handleChange} required />
-        <input name="salary" placeholder="Salary (optional)" onChange={handleChange} />
-        <button type="submit">Post Job</button>
-      </form>
+    <div className="bg-gray-50 min-h-screen flex items-center justify-center px-4 py-10">
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm p-8 w-full max-w-lg">
+        <h2 className="text-2xl font-bold text-gray-900 mb-1">Post a new job</h2>
+        <p className="text-gray-500 text-sm mb-6">Reach thousands of job seekers</p>
+
+        {error && (
+          <p className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg mb-4">{error}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+          <input
+            name="title" placeholder="Job Title" onChange={handleChange} required
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            name="company" placeholder="Company Name" onChange={handleChange} required
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            name="location" placeholder="Location" onChange={handleChange} required
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <textarea
+            name="description" placeholder="Job Description" rows="4" onChange={handleChange} required
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <input
+            name="salary" placeholder="Salary (optional)" onChange={handleChange}
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+          />
+          <button
+            type="submit"
+            className="bg-blue-700 hover:bg-blue-800 text-white py-2 rounded-lg text-sm font-medium transition mt-2"
+          >
+            Post Job
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
