@@ -151,7 +151,31 @@ app.get('/api/jobs/:id', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 });
+// DELETE JOB (only the recruiter who posted it)
+app.delete('/api/jobs/:id', verifyToken, async (req, res) => {
+  try {
+    const job = await prisma.job.findUnique({
+      where: { id: parseInt(req.params.id) },
+    });
 
+    if (!job) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
+
+    if (job.userId !== req.userId) {
+      return res.status(403).json({ message: 'You can only delete your own job postings' });
+    }
+
+    await prisma.job.delete({
+      where: { id: parseInt(req.params.id) },
+    });
+
+    res.json({ message: 'Job deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Something went wrong' });
+  }
+});
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

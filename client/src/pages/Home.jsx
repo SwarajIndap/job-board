@@ -4,13 +4,31 @@ import axios from 'axios';
 function Home() {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const token = localStorage.getItem('token');
 
-  useEffect(() => {
+  const fetchJobs = () => {
     axios.get('https://job-board-ryd4.onrender.com/api/jobs')
       .then((res) => setJobs(res.data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchJobs();
   }, []);
+
+  const handleDelete = async (jobId) => {
+    if (!window.confirm('Are you sure you want to delete this job?')) return;
+    try {
+      await axios.delete(`https://job-board-ryd4.onrender.com/api/jobs/${jobId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      fetchJobs();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Could not delete job');
+    }
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -27,7 +45,7 @@ function Home() {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition cursor-pointer"
+              className="bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md transition"
             >
               <div className="flex justify-between items-start">
                 <div>
@@ -42,7 +60,17 @@ function Home() {
                 )}
               </div>
               <p className="text-gray-600 text-sm mt-3 line-clamp-2">{job.description}</p>
-              <p className="text-gray-400 text-xs mt-3">Posted by {job.user?.name}</p>
+              <div className="flex justify-between items-center mt-3">
+                <p className="text-gray-400 text-xs">Posted by {job.user?.name}</p>
+                {user && user.id === job.userId && (
+                  <button
+                    onClick={() => handleDelete(job.id)}
+                    className="text-red-600 hover:text-red-700 text-xs font-medium"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
