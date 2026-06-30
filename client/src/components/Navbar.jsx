@@ -15,12 +15,13 @@ function Navbar() {
         JobBoard
       </Link>
       <div style={{ display: 'flex', gap: '20px' }}>
-        {user ? (
-          <>
-            <span>Hi, {user.name}</span>
-            <button onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</button>
-          </>
-        ) : (
+       {user ? (
+  <>
+    {user.role === 'recruiter' && <Link to="/post-job" style={{ color: 'white' }}>Post Job</Link>}
+    <span>Hi, {user.name}</span>
+    <button onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</button>
+  </>
+) : (
           <>
             <Link to="/login" style={{ color: 'white' }}>Login</Link>
             <Link to="/signup" style={{ color: 'white' }}>Signup</Link>
