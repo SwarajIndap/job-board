@@ -6,7 +6,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/jobs')
+    axios.get('https://job-board-ryd4.onrender.com/api/jobs')
       .then((res) => setJobs(res.data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));

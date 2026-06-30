@@ -18,7 +18,7 @@ function PostJob() {
     e.preventDefault();
     setError('');
     try {
-      await axios.post('http://localhost:5000/api/jobs', formData, {
+      await axios.post('https://job-board-ryd4.onrender.com/api/jobs', formData, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/');
